@@ -1,0 +1,35 @@
+variable "Octopus.Azure.Account" {
+    type = "AzureAccount"
+
+    value "octopub-yaml" {
+        action = ["create-namespace-if-not-exists"]
+    }
+}
+
+variable "Project.Container.Tag" {
+    value "#{Octopus.Action.Package[octopub-products].PackageVersion}" {}
+}
+
+variable "Project.Worker.Pool" {
+    type = "WorkerPool"
+
+    value "azure-worker-pool" {}
+}
+
+variable "spec:template:spec:containers:0:env:1:value" {
+    value "#{Octopub.Yaml.Database.Server.Name}" {
+        action = ["deploy-product-service"]
+    }
+}
+
+variable "spec:template:spec:containers:0:env:2:value" {
+    value "3306" {
+        action = ["deploy-product-service"]
+    }
+}
+
+variable "spec:template:spec:containers:0:env:3:value" {
+    value "#{Octopub.Yaml.Database.Name}" {
+        action = ["deploy-product-service"]
+    }
+}
