@@ -43,24 +43,17 @@ step "deploy-product-deployment" {
     action "deploy-product-service" {
         action_type = "Octopus.KubernetesDeployRawYaml"
         properties = {
-            Octopus.Action.GitRepository.FilePathFilters = "manifests/octopub-products-mysql.yaml"
-            Octopus.Action.GitRepository.Source = "External"
+            Octopus.Action.GitRepository.FilePathFilters = "*.yaml"
+            Octopus.Action.GitRepository.Source = "Project"
             Octopus.Action.Kubernetes.DeploymentTimeout = "180"
             Octopus.Action.Kubernetes.ResourceStatusCheck = "True"
-            Octopus.Action.KubernetesContainers.CustomResourceYamlFileName = "manifests/octopub-products-mysql.yaml"
+            Octopus.Action.KubernetesContainers.CustomResourceYamlFileName = "*.yaml"
             Octopus.Action.KubernetesContainers.Namespace = "#{Octopub.Yaml.Cluster.Namespace}"
             Octopus.Action.Package.JsonConfigurationVariablesTargets = "**/*.{yml,yaml}"
+            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptSource = "GitRepository"
         }
         worker_pool_variable = ""
-
-        git_dependencies {
-            default_branch = "main"
-            file_path_filters = ["manifests/octopub-products-mysql.yaml"]
-            git_credential_id = "GitCredentials-922"
-            git_credential_type = "Library"
-            repository_uri = "https://github.com/OctopusSolutionsEngineering/Octopub.git"
-        }
 
         packages "octopub-products" {
             acquisition_location = "NotAcquired"
