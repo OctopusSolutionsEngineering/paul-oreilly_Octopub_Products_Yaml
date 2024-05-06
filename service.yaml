@@ -5,7 +5,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    component: productservice
+    component: #{Project.Labels.Component}
   ports:
     - port: 8083
       targetPort: 8083
