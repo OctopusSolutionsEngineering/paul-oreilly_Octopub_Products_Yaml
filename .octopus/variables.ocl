@@ -33,3 +33,11 @@ variable "Octopus.Azure.Account" {
         action = ["create-namespace-if-not-exists"]
     }
 }
+
+variable "Project.Labels.Component" {
+    value "productservice" {}
+}
+
+variable "Project.Deployment.Name" {
+    value "octopub-productservice-deployment" {}
+}
